@@ -1,0 +1,45 @@
+<apex:page controller="Sharing_Challenge" sidebar="false" tabStyle="Sharing_Challenge__tab">
+<apex:sectionHeader title="Sharing Violation Challenge"/>
+    <apex:pageBlock >
+        <c:Classic_Error />
+        <apex:pageBlockSection title="Implemented with Virtual Class" columns="1" id="tableBlock">
+        <c:LoginAs string_url="/apex/Sharing_Challenge" array_permset="{!PermSets}"/> 
+                 <apex:form > 
+        <apex:commandButton value="Reveal the secret location of my treasure" action="{!Sharing_Challenge}"/>    
+                                                                                                           
+         <apex:pageBlockSection title="Implemented with Asynchronous Class" columns="1" id="tableBlock1">
+             <apex:pageBlockTable value="{!gold_async_record}" var="rec">
+                  <apex:column headervalue="Name">         
+                    <apex:outputField value="{!rec.Coin_Purse_Owner__r.Name}"/>
+                </apex:column> 
+                
+                 <apex:column headervalue="Treasure Location">         
+                    <apex:outputField value="{!rec.Coin_location__c}"/>
+                </apex:column>                                                                                                    
+            </apex:pageBlockTable> 
+        </apex:pageBlockSection>
+                                                                                                  
+         <apex:pageBlockSection title="Implemented without Virtual/Abstract/Asynchronous class" columns="1" id="tableBlock2">
+            <apex:pageBlockTable value="{!gold_normal_record}" var="rec">
+                 <apex:column headervalue="Name">         
+                        <apex:outputField value="{!rec.Coin_Purse_Owner__r.Name}"/>
+                    </apex:column> 
+                    <apex:column headervalue="Treasure Location">         
+                    <apex:outputField value="{!rec.Coin_location__c}"/>
+                </apex:column>                                                                                     
+            </apex:pageBlockTable> 
+        </apex:pageBlockSection>
+            </apex:form>  
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="Sharing_Challenge" description="Visualforce Page"/></li>
+                    <li><c:codeLink type="Apex" namespace="security_thail" name="Sharing_Challenge" description="Apex Controller"/></li>              
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+    
+            
+</apex:page>

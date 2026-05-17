@@ -1,0 +1,101 @@
+<apex:page standardController="EnCrypt_Decrypt__c" extensions="EncryptChallenge">
+    <style>
+    h1 {
+        color: #2f1769;
+        font-family: arial, sans-serif;
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 0px;
+        margin-bottom: 1px;
+        }
+    </style>
+    <apex:pageBlock title="Apex custom encryption challenge">
+        
+        <apex:image id="Solution_img" url="{!$Resource.romeo}" width="100" height="100"/>
+    </apex:pageBlock>
+    
+    <apex:form >
+        <apex:pageBlock title="Princess Moira: Send secret">
+              
+                <table style="background-color: #97d1ed; width: 100%">
+                    <tr><th style="width: 20%">AES encrypted messages</th>
+                    <th style="width: 25%">Maximum 80 characters</th>
+                    <th style="width: 25%">Send Message</th></tr>
+                    <tr>
+                    <th><apex:image id="theImage" url="{!$Resource.locked}" style="width: 50px"/>  </th>
+                    <th>Enter Message to encrypt:&nbsp;&nbsp;<apex:inputField value="{!encrypt.Name}" label="Enter message to encypt:" style="width: 260px; height: 20px"/></th>
+                    <th><apex:commandButton style="padding: 10px; text-decoration: none; background:#f5812f; color: #fff" rerender="panel" value="Encrypt and send!" action="{!Save}"/></th>
+                    </tr>
+                </table>   
+           
+                <!-- <apex:commandButton value="Decode" action="{!test}"/> -->
+           
+            
+        </apex:pageBlock>
+    </apex:form> 
+    
+    <!-- <apex:form >
+        <apex:pageBlock title="Kingdom B">
+            <apex:pageBlockSection >
+                <apex:inputField value="{!encrypt.Name}" label="Enter message to encypt:"/>
+                <apex:commandButton  style="padding: 10px; text-decoration: none; background:#d7ffea;" value="Encrypt and send!" action="{!Save}"/>   
+                
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form> -->
+    
+    <apex:variable var="rowNum" value="{!0}"/>    
+    <apex:form >
+    <apex:pageBlock title="Prince Philip: Receive secret" id="panel">        
+        <table style="background-color: #a3cf74; width: 100%">
+                    <tr>
+                        <th style="width: 20%">Decrypt AES message</th>
+                        <th style="width: 10%"></th>
+                        <th style="width: 70%">Decrypted Message</th>
+                    </tr>
+                   
+                    <tr>
+                    <th>
+                            <apex:image id="theImage" url="{!$Resource.unlock_new}" style="width: 50px; margin-bottom: 10px"/>  
+                    </th>
+                    <th>
+                    </th>
+                    <th>
+                        <h1 style="">
+                            <apex:pageMessages />
+<apex:outputText value="{!paramValue}" />
+                        </h1>       
+                    </th>
+                    </tr>
+            </table>   
+
+        <apex:pageBlockTable value="{!Messages}" var="item" >
+               <apex:variable var="rowNum" value="{!0}"/>
+            <apex:column >
+                     {!rowNum}
+                <apex:variable var="rowNum" value="{!rowNum + 1}"/>
+                 </apex:column>
+            <apex:column value="{!item.id}"/>
+            <apex:column value="{!item.name}"/>
+            <apex:column headerValue="">
+                <apex:commandButton action="{!DecryptMe}" style="padding: 5px; text-decoration: none; background:#fff2d7;" rerender="panel" value="Decrypt Message" >
+                    <apex:param value="{!item.name}" name="nameToDec" assignTo="{!pitemName}"/>
+                    <apex:param value="{!item.id}" name="idToDec" assignTo="{!pitemId}"/>
+                </apex:commandButton>                
+            </apex:column>           
+            <apex:column > 
+                <!-- <apex:commandLink action="{!DeleteMe}" onclick="if(!confirm('Are you sure?')) return false;">Del -->
+                 <apex:commandButton action="{!DeleteMe}" rerender="panel" value="Delete">
+                    <apex:param value="{!item.id}" name="idToDel" assignTo="{!pitemId}"/>
+            </apex:commandButton>
+             </apex:column>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+    <apex:pageBlock title="Code links" id="panel2">
+    <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="ApexEncryptionDemo" description="Visualforce Page"/></li>            
+                    <li><c:codeLink type="Apex" namespace="security_thail" name="EncryptChallenge" description="Apex Controller"/></li>
+                </ul>
+    </apex:pageBlock>
+    </apex:form>
+</apex:page>

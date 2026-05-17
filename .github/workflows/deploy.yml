@@ -1,0 +1,26 @@
+name: Deploy To Master Using Delta Workflow
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+on:
+  pull_request:
+    branches:
+      - master
+    types:
+      - closed
+
+jobs:
+  deploy-to-master-using-delta:
+    name: Deploy To Master Using Delta
+    uses: ./.github/workflows/run-using-delta.yml
+    with:
+      as-dry-run: false
+      test-level: NoTestRun
+      with-destructive-changes: true
+      to: ${{ github.event.pull_request.merge_commit_sha }}
+      from: ${{ github.event.pull_request.base.sha }}
+      should-run: ${{ github.event.pull_request.merged == true }}
+    secrets:
+      sfdx-auth-url: ${{ secrets.SF_AUTH_URL }}

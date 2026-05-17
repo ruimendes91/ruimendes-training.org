@@ -1,0 +1,386 @@
+<apex:page showHeader="true" sidebar="false" controller="PersonnelTree" action="{!seedURL}">
+<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<head>
+<style>
+    .node {
+        cursor: pointer;
+    }
+
+    .node circle {
+        fill: #fff;
+        stroke: steelblue;
+        stroke-width: 1.5px;
+    }
+
+    .node text {
+        font: 10px sans-serif;
+    }
+
+    .link {
+        fill: none;
+        stroke: #ccc;
+        stroke-width: 1.5px;
+    }
+
+</style>
+<apex:stylesheet value="{!URLFOR($Resource.sfds, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+</head>
+
+<body>
+<div class="castle-xss">
+<header class="slds-global-header_container">
+  <div class="slds-global-header slds-grid slds-grid--align-spread">
+    <div class="slds-global-header__item">
+      <p class="slds-text-heading--large">Hello, <apex:outputText escape="false" value="{!$CurrentPage.parameters.name}"></apex:outputText>! Welcome to the Castle Management Interface</p>
+    </div>
+  </div>
+</header>
+<div class="slds-grid">
+  <div class="slds-col">
+    <div id="PersonnelTree__c" class="slds-p-horizontal--large slds-scrollable"></div>
+  </div>
+  <div class="slds-col">
+    <div class="slds-page-header--vertical hidden" role="banner" id="Personnel_panel">
+      <div class="slds-grid slds-grid--vertical">
+        <div>
+          <div class="slds-media slds-media--center slds-no-space slds-has-divider--bottom-space">
+            <div class="slds-media__figure">
+              <!-- <div class="slds-icon_container slds-icon-standard-lead"> -->
+              <span class="slds-avatar slds-avatar--circle slds-avatar--medium">
+                <img src="{!URLFOR($Resource.sfds, 'assets/images/avatar'+TEXT(MOD(VALUE(MID(TEXT(NOW()),19,1)),3)+1)+'.jpg')}" alt="person" />
+              </span>
+                <!-- <svg aria-hidden="true" class="slds-icon">
+                  <use xlink:href="{!URLFOR($Resource.sfds, 'assets/icons/standard-sprite/svg/symbols.svg#lead')}"></use>
+                </svg>-->
+                <span class="slds-assistive-text">Personnel</span>
+              <!-- </div> -->
+            </div>
+            <div class="slds-media__body">
+              <h1 class="slds-page-header__title slds-align-middle" id="Personnel__name"></h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ul class="slds-list--vertical-space-medium slds-m-left--xx-small">
+        <li class="slds-item hidden" id="Personnel__role-item">
+          <div class="slds-text-heading--small slds-m-bottom--xx-small">Role</div>
+          <div class="slds-text-body--regular" title="Role" id="Personnel__role"></div>
+        </li>
+        <li class="slds-item hidden" id="Personnel__title-item">
+          <div class="slds-text-heading--small slds-m-bottom--xx-small">Title</div>
+          <div class="slds-text-body--regular" title="Title" id="Personnel__title"></div>
+        </li>
+        <li class="slds-item hidden" id="Personnel__castle-item">
+          <div class="slds-text-heading--small slds-m-bottom--xx-small">Castle</div>
+          <div class="slds-truncate" title="Castle" id="Personnel__castle"></div>
+        </li>
+        <li class="slds-item hidden" id="Personnel__quarters-item">
+          <div class="slds-text-heading--small slds-m-bottom--xx-small">Quarters</div>
+          <div class="slds-truncate" title="Quarters" id="Personnel__quarters"></div>
+        </li>
+        <li class="slds-item hidden" id="Personnel__age-item">
+          <div class="slds-text-heading--small slds-m-bottom--xx-small">Age</div>
+          <div class="slds-truncate" title="Quarters" id="Personnel__age"></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<p class="slds-text-heading--medium">Today's statistics</p>
+
+<table class="slds-table slds-table--bordered slds-table--cell-buffer">
+  <thead>
+    <tr class="slds-text-title--caps">
+      <th scope="col">
+        <div class="slds-truncate" title="Role">Role</div>
+      </th>
+      <th scope="col">
+        <div class="slds-truncate" title="Disloyal Subjects">Number of disloyal subjects</div>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <apex:repeat var="stat" value="{!disloyalStats}">
+    <tr>
+      <td scope="row" data-label="Role">
+        <div class="slds-truncate" onmouseover="displayPopup(this, '{!stat[0]}')" title="{!stat[0]}">{!stat[0]}</div>
+      </td>
+      <td data-label="Disloyal Subjects">
+        <div class="slds-truncate" title="Disloyal {!stat[0]}">{!stat[1]}</div>
+      </td>
+    </tr>
+    </apex:repeat>
+  </tbody>
+</table>
+<div class="slds-popover slds-nubbin--bottom-left" role="dialog" id="tooltip" style="display: none; position: absolute; z-index:1;">
+  <div class="slds-popover__body">
+  <span class="slds-icon_container" title="description of icon when needed">
+  <svg aria-hidden="true" class="slds-icon slds-icon-text-warning">
+    <use xlink:href="{!URLFOR($Resource.sfds, 'assets/icons/utility-sprite/svg/symbols.svg#warning')}"></use>
+  </svg>
+  <span class="slds-assistive-text">Description of icon</span>
+</span>
+    <code>Warning!</code>
+    <p>You might want to terminate all people who work as <span id="tooltip_role-text"></span>.</p>
+  </div>
+</div>
+</div>
+
+<apex:includeScript value="{!$Resource.jquery}"/>
+<apex:includeScript value="{!$Resource.d3js}"/>
+<script type="text/javascript">
+
+var margin = {top: 20, right: 10, bottom: 20, left: 50},
+    width = 960 - margin.right - margin.left,
+    height = 800 - margin.top - margin.bottom;
+
+var i = 0,
+    duration = 750,
+    root;
+
+var tree = d3.layout.tree().size([height, width]);
+
+var diagonal = d3.svg.diagonal()
+    .projection(function(d) { return [d.y, d.x]; });
+
+var svg = d3.select("#PersonnelTree__c").append("svg")
+    .attr("width", width + margin.right + margin.left)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var dataTree = {name: "Castles", children: []}
+var hashmap = {};
+
+
+    var handleResponse = function(personnel, event) {
+        if (event.status) {
+
+            // building hashmap tree
+            for(var i=0;i<personnel.length;i++){
+                var castleName = personnel[i].Castle__r && personnel[i].Castle__r.Name || "Homeless";
+                if(hashmap[castleName] === undefined) hashmap[castleName] = {}
+                var quartersName = personnel[i].Quarters__r && personnel[i].Quarters__r.Name || "Roomless";
+                if(hashmap[castleName][quartersName] === undefined) hashmap[castleName][quartersName] = {}
+                var roleName = personnel[i].Role__c || "Jobless";
+                if(hashmap[castleName][quartersName][roleName] === undefined) hashmap[castleName][quartersName][roleName] = []
+                var p = personnel[i];
+                p.name = p.Name;
+                p.isDisloyal = p.Disloyal_Subject__c;
+                hashmap[castleName][quartersName][roleName].push(p);
+            }
+
+            // building hashmap tree into the object tree for d3js
+            Object.keys(hashmap).forEach(function(c) {
+                var castle = {name: c, children: [] }
+                Object.keys(hashmap[c]).forEach(function(q) {
+                    var quarters = {name: q, children: []}
+                    Object.keys(hashmap[c][q]).forEach(function(r) {
+                        var role = {name: r, children: []}
+                        hashmap[c][q][r].forEach(function(p) {
+                            role.children.push(p)
+                        });
+                        quarters.children.push(role);
+                    })
+                    castle.children.push(quarters);
+                })
+                dataTree.children.push(castle);
+            });
+
+
+              root = dataTree;
+  root.x0 = height / 2;
+  root.y0 = 0;
+
+  function collapse(d) {
+    if (d.children) {
+      d._children = d.children;
+      d._children.forEach(collapse);
+      d.children = null;
+    }
+  }
+
+  root.children.forEach(collapse);
+  update(root);
+
+        } else if (event.type === 'exception') {
+            console.error(event.message, event.where);
+        }
+    }
+    Visualforce.remoting.Manager.invokeAction(
+      '{!$RemoteAction.PersonnelTree.getAllPersonnel}',
+      handleResponse, {escape: false}
+    )
+
+d3.select(self.frameElement).style("height", "800px");
+
+function update(source) {
+
+  // Compute the new tree layout.
+  var nodes = tree.nodes(root).reverse(),
+      links = tree.links(nodes);
+
+  // Normalize for fixed-depth.
+  nodes.forEach(function(d) { d.y = d.depth * 180; });
+
+  // Update the nodes…
+  var node = svg.selectAll("g.node")
+      .data(nodes, function(d) { return d.id || (d.id = ++i); });
+
+  // Enter any new nodes at the parent's previous position.
+  var nodeEnter = node.enter().append("g")
+      .attr("class", "node")
+      .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
+      .on("click", click);
+
+  nodeEnter.append("circle")
+      .attr("r", 1e-6)
+      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+
+  nodeEnter.append("text")
+      .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
+      .attr("dy", ".35em")
+      .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+      .text(function(d) { return d.name; })
+      .style("fill", function(d) { return d.isDisloyal ? "#9c2b2e": false })
+      .style("fill-opacity", 1e-6);
+
+  // Transition nodes to their new position.
+  var nodeUpdate = node.transition()
+      .duration(duration)
+      .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+
+  nodeUpdate.select("circle")
+      .attr("r", 4.5)
+      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+
+  nodeUpdate.select("text")
+      .style("fill-opacity", 1);
+
+  // Transition exiting nodes to the parent's new position.
+  var nodeExit = node.exit().transition()
+      .duration(duration)
+      .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
+      .remove();
+
+  nodeExit.select("circle")
+      .attr("r", 1e-6);
+
+  nodeExit.select("text")
+      .style("fill-opacity", 1e-6);
+
+  // Update the links…
+  var link = svg.selectAll("path.link")
+      .data(links, function(d) { return d.target.id; });
+
+  // Enter any new links at the parent's previous position.
+  link.enter().insert("path", "g")
+      .attr("class", "link")
+      .attr("d", function(d) {
+        var o = {x: source.x0, y: source.y0};
+        return diagonal({source: o, target: o});
+      });
+
+  // Transition links to their new position.
+  link.transition()
+      .duration(duration)
+      .attr("d", diagonal);
+
+  // Transition exiting nodes to the parent's new position.
+  link.exit().transition()
+      .duration(duration)
+      .attr("d", function(d) {
+        var o = {x: source.x, y: source.y};
+        return diagonal({source: o, target: o});
+      })
+      .remove();
+
+  // Stash the old positions for transition.
+  nodes.forEach(function(d) {
+    d.x0 = d.x;
+    d.y0 = d.y;
+  });
+}
+
+// Toggle children on click.
+function click(d) {
+  if (d.children) {
+    d._children = d.children;
+    d.children = null;
+  } else {
+    d.children = d._children;
+    d._children = null;
+    displayPanelData(d);
+  }
+  update(d);
+}
+
+function displayPanelData(d) {
+  if (typeof d.isDisloyal === "undefined") return;
+
+  $("#Personnel_panel").removeClass("hidden");
+
+  var name = d.Name;
+  var color = d.Favorite_Color__c;
+
+  if(d.isDisloyal) {
+    name = '<span style="color:red;">'+name+'</span>';
+  } else if (color) {
+    name = '<span style="color:'+color+';">'+name+'</span>';
+  }
+  $("#Personnel__name").html(name);
+
+  if(d.Castle__r) {
+    $("#Personnel__castle").html(d.Castle__r.Name);
+    $("#Personnel__castle-item").removeClass("hidden");
+  } else {
+    $("#Personnel__castle-item").addClass("hidden");
+  }
+
+  if(d.Quarters__r) {
+    $("#Personnel__quarters-item").removeClass("hidden");
+    $("#Personnel__quarters").html(d.Quarters__r.Name);
+  } else {
+    $("#Personnel__quarters-item").addClass("hidden");
+  }
+
+  if(d.Age__c) {
+    $("#Personnel__age-item").removeClass("hidden");
+    $("#Personnel__age").html(d.Age__c);
+  } else {
+    $("#Personnel__age-item").addClass("hidden");
+  }
+
+  if(d.Role__c){
+    $("#Personnel__role-item").removeClass("hidden");
+    $("#Personnel__role").html(d.Role__c);
+  } else {
+    $("#Personnel__role-item").addClass("hidden");
+
+  }
+
+  if(d.Title__c){
+    $("#Personnel__title-item").removeClass("hidden");
+    $("#Personnel__title").html(d.Title__c);
+  } else {
+    $("#Personnel__title-item").addClass("hidden");
+
+  }
+
+}
+function displayPopup(ref, roleName) {
+  var position = $(ref).offset();
+  var tooltip = $('#tooltip');
+  $("#tooltip_role-text").text(roleName);
+  tooltip.css({'top':position.top-2.5*tooltip.height(),'left':0}).fadeIn();
+}
+
+function hidePopup(){
+  $('#tooltip').fadeOut();
+}
+
+</script>
+</body>
+</html>
+</apex:page>

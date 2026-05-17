@@ -1,0 +1,36 @@
+<apex:page controller="FLS_Update_Demo" tabStyle="isUpdateable_Demo__tab" showHeader="true" standardstylesheets="True" sidebar="true">
+<apex:sectionHeader title="isUpdateable Demo"/>
+    <apex:pageBlock mode="edit">
+        <c:Classic_Error />
+     <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+                <c:LoginAs string_url="/apex/FLS_Update" array_permset="{!PermSets}"/> 
+                <apex:pageMessages />
+         <h3>Jousting Tournment Score Board</h3>
+                <apex:form >
+                    <apex:pageBlockTable value="{!jousters}" var="p">
+                        <apex:column headervalue="Name">
+                            <apex:OutputText value="{!p.Participant_Name__r.Name}" /> 
+                        </apex:column>
+                        <apex:column headervalue="Rank">
+                            <apex:inputText value="{!p.Rank__c}" />
+                        </apex:column>
+                        <apex:column headervalue="Castle">
+                            <apex:OutputText value="{!p.Castle__r.Name}" />
+                        </apex:column>
+                        
+                        <apex:column >
+                            <apex:commandLink action="{!updateRequest}" value="Update"/>                            
+                        </apex:column>                                                                                   
+                </apex:pageBlockTable>
+                </apex:form> 
+     </apex:pageBlockSection> 
+    <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="FLS_Update" description="Visualforce Page"/></li>
+                    <li><c:codeLink type="Apex" namespace="security_thail" name="FLS_Update_Demo" description="Apex Controller"/></li>              
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>
+</apex:page>

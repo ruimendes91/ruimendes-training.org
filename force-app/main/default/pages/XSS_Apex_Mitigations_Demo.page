@@ -1,0 +1,30 @@
+<apex:page controller="XSS_Apex_Mitigations_Demo" sidebar="false" tabStyle="XSS_Apex_Mitigations_Demo__tab">
+<apex:sectionHeader title="XSS Apex Mitigations Demo" />
+<apex:form >
+    <apex:pageBlock >
+        <c:Classic_Error />
+        <apex:pageMessages />      
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+            <apex:outputPanel >
+                New profile page in progress! <br/><br/>
+                Title: <apex:outputText value="{!title}" escape="false" /><br/>
+                Name: <apex:outputText value="{!name}" escape="false" /><br/>
+                Favorite Color: <apex:outputText value="{!color}" escape="false" /><br/>
+                Favorite Animal: <apex:outputText value="{!animal}" escape="false" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:commandButton value="Click here to view the HTML based XSS!" action="{!APEXXSS}"/>
+                <apex:commandButton value="Remove All XSS" action="{!REMOVEXSS}"/>
+            </apex:outputPanel>            
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="XSS_Apex_Mitigations_Demo" description="Visualforce Page"/></li>            
+                    <li><c:codeLink type="Apex" namespace="security_thail" name="XSS_Apex_Mitigations_Demo" description="Apex Controller"/></li>
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>          
+</apex:form>              
+</apex:page>

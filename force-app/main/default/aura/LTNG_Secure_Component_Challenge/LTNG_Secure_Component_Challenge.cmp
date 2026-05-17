@@ -1,0 +1,27 @@
+<aura:component implements="force:appHostable" controller="LTNG_Regions_Controller" access="global">
+    <aura:attribute name="region" type="Region__c" default="{}" required="false"/>
+    <aura:attribute name="creatures" type="Creature__c[]" default="[{}]" required="false" />
+    <aura:attribute name="safeCommonMonster" type="String" default="" />
+    
+    <div class="slds-row slds-align--absolute-center">
+        <div class="slds-panel slds-size--4-of-6 ">
+            <lightning:input label="Get Region information:" name="InputName" aura:id="InputName" />
+            <ui:button label="Search Region" press="{!c.searchRegionAction}"/><BR />
+            
+            Information For Region:
+            <ui:outputText aura:id="retRegionName" value="{!v.region.Name}" /><BR />
+            Id: <ui:outputText aura:id="retRegionId" value="{!v.region.Id}" /><BR />
+            Description: <ui:outputRichText value="{!v.region.Description__c}" /> <BR />
+            <!-- TODO make this link work -->
+            More information: <a href="{!v.safeCommonMonster}">here</a><BR />
+            <ui:button label="Show Creatures" press="{!c.getCreaturesForRegionAction}"/><BR />
+            
+            <aura:iteration items="{!v.creatures}" var="creature">
+                Creature: {!creature.Name} <BR />
+                Id: {!creature.Id} <br />
+                Description: <aura:unescapedHTML value="{!creature.Description__c}" /> <BR />
+                Type: {!creature.Type__c} <br /><br />
+            </aura:iteration>
+        </div>
+    </div>
+</aura:component>

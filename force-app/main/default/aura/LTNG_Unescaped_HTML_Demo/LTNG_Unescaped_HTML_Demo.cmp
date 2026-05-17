@@ -1,0 +1,26 @@
+<aura:component controller="LTNG_Creatures_Controller" access="global" implements="force:appHostable" >
+    <aura:attribute name="creatures" type="list"/>
+    
+    <div class="slds-row slds-align--absolute-center">
+        <div class="slds-panel slds-size--4-of-6 ">
+            <lightning:input label="List Creatures" name="InputName" aura:id="InputName" />
+            <ui:button label="Search Creatures" press="{!c.searchCreaturesAction}"/><BR />
+        </div>
+    </div>
+    <br />
+    <div class="slds-row slds-align--absolute-center">
+        <div class="slds-pannel slds-size--4-of-6">
+            Object in aura:unescapedHTML: <BR />
+            <aura:unescapedHTML value="{!v.creatures}" />
+            <BR /><BR />
+            Same object in ui:outputRichText <BR />
+            <ui:outputRichText value="{!v.creatures}" />
+        </div>
+    </div>
+    <hr />
+    <div class="slds-row slds-align--absolute-center">
+        <div class="slds-size--4-of-6">
+    		<c:CodeInstructions componentName="DemoUnescapedHtml" />
+        </div>
+    </div>
+</aura:component>

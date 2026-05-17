@@ -1,0 +1,38 @@
+<apex:page controller="Open_Redirect_Basics_Challenge" sidebar="false" tabStyle="Open_Redirect_Basics_Challenge__tab" action="{!seedURL}">
+<apex:sectionHeader title="Open Redirect Basics Challenge" />
+<apex:form >
+    <apex:pageBlock >
+        <c:Classic_Error />
+        <apex:pageMessages />      
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+            <script>function setFocusOnLoad() {}</script> <!-- disable vf setting focus to first input field-->
+            <apex:pageBlockTable value="{!unassigned}" var="u">      
+                <apex:column headervalue="Name">
+                    <apex:outputfield value="{!u.Name}" />
+                </apex:column> 
+                <apex:column headervalue="Castle">
+                    <apex:outputfield value="{!u.Castle__c}" />
+                </apex:column>                     
+                <apex:column headervalue="Role">
+                    <apex:outputfield value="{!u.Role__c}" />
+                </apex:column>
+                <apex:column headervalue="Assignment">
+                    <apex:inputfield value="{!u.Assignment__c}" />
+                </apex:column>                                                                                
+            </apex:pageBlockTable>
+            <apex:outputPanel >
+                <apex:commandButton action="{!save}" value="Save"/>
+                <apex:commandButton action="{!cancel}" value="Cancel"/>         
+            </apex:outputPanel>
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="Open_Redirect_Basics_Challenge" description="Visualforce Page"/></li>            
+                    <li><c:codeLink type="Apex" namespace="security_thail" name="Open_Redirect_Basics_Challenge" description="Apex Controller"/></li>
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>          
+</apex:form>              
+</apex:page>

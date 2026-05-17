@@ -1,0 +1,56 @@
+<apex:page controller="Built_In_XSS_Protections_Challenge" sidebar="false" tabStyle="Built_In_XSS_Protections_Challenge__tab">
+<apex:sectionHeader title="Built-In XSS Protections Challenge" />
+<apex:form >
+    <apex:pageBlock >
+        <c:Classic_Error />
+        <apex:pageMessages />      
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">          
+            
+            <apex:outputText value="{!sampleMergeField1}"/>
+            <!-- sampleMergeField1 is vulnerable to XSS: YES / NO -->
+
+
+            <apex:outputText value="{!sampleMergeField2}" escape="false"/>
+            <!-- sampleMergeField2 is vulnerable to XSS: YES / NO -->
+
+
+            <apex:outputText >
+                {!sampleMergeField3}
+            </apex:outputText>
+            <!-- sampleMergeField3 is vulnerable to XSS: YES / NO -->
+       
+       
+            <style>
+                .foo {
+                    color: #{!sampleMergeField4};
+                }
+            </style>
+            <!-- sampleMergeField4 is vulnerable to XSS: YES / NO -->
+             
+            
+            {!sampleMergeField5}
+            <!-- sampleMergeField5 is vulnerable to XSS: YES / NO -->
+            
+            
+            <script>
+                var x = '{!sampleMergeField6}';
+            </script>
+            <!-- sampleMergeField6 is vulnerable to XSS: YES / NO -->
+            
+            
+            <apex:outputLabel value="{!sampleMergeField7}" escape="false"/>
+            <!-- sampleMergeField7 is vulnerable to XSS: YES / NO -->
+            
+       
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="Built_In_XSS_Protections_Challenge" description="Visualforce Page"/></li>            
+                    <li><c:codeLink type="Apex" namespace="security_thail" name="Built_In_XSS_Protections_Challenge" description="Apex Controller"/></li>
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>          
+</apex:form>              
+</apex:page>

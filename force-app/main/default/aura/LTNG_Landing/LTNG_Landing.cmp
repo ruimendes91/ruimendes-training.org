@@ -1,0 +1,10 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="LTNG_Landing">
+    <aura:handler name="init" action="{!c.onInit}" value="{!this}" />
+    <div class="slds-row slds-align--absolute-center">
+  	<div class="slds-panel slds-size--4-of-6">
+		<div class="slds-text-heading--large">Welcome to the Secure Lightning Trail!</div>
+        <div class="slds-text-body--regular">You will work on creatures and regions, which are can be managed from the Kingdom Management App</div>
+    </div>
+  </div>
+    
+</aura:component>

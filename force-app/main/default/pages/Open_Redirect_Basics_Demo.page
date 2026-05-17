@@ -1,0 +1,41 @@
+<apex:page controller="Open_Redirect_Basics_Demo" sidebar="false" tabStyle="Open_Redirect_Basics_Demo__tab" action="{!seedURL}">
+<apex:sectionHeader title="Open Redirect Basics Demo" />
+<apex:form >
+    <apex:pageBlock >
+        <c:Classic_Error />
+        <apex:pageMessages />      
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+            <script>function setFocusOnLoad() {}</script> <!-- disable vf setting focus to first input field-->
+            <apex:pageBlockTable value="{!requisitions}" var="rec">        
+                <apex:column headervalue="Name">
+                    <apex:inputfield value="{!rec.Name}" />
+                </apex:column> 
+                <apex:column headervalue="Castle">
+                    <apex:inputfield value="{!rec.Castle__c}" />
+                </apex:column>                     
+                <apex:column headervalue="Resource">
+                    <apex:inputfield value="{!rec.Resource__c}" />
+                </apex:column>
+                <apex:column headervalue="Quantity">
+                    <apex:inputfield value="{!rec.Quantity__c}" />
+                </apex:column>
+                <apex:column headervalue="Description">
+                    <apex:inputfield value="{!rec.Description__c}" />
+                </apex:column>                                                                                     
+            </apex:pageBlockTable>
+            <apex:outputPanel >
+                <apex:commandButton action="{!save}" value="Save"/>         
+                <a href="{!IF(ISNULL($CurrentPage.Parameters.onCancel), '/home/home.jsp',  $CurrentPage.Parameters.onCancel)}"><button type="button">Cancel</button></a>
+            </apex:outputPanel>
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="Open_Redirect_Basics_Demo" description="Visualforce Page"/></li>            
+                    <li><c:codeLink type="Apex" namespace="security_thail" name="Open_Redirect_Basics_Demo" description="Apex Controller"/></li>
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>          
+</apex:form>              
+</apex:page>

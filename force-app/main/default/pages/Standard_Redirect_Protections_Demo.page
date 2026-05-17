@@ -1,0 +1,39 @@
+<apex:page controller="Standard_Redirect_Protections_Demo" sidebar="false" tabStyle="Standard_Redirect_Protections_Demo__tab">
+<apex:sectionHeader title="Standard Redirect Protections Demo" />
+<apex:form >
+    <apex:pageBlock >
+        <c:Classic_Error />
+        <apex:pageMessages />      
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+
+            <script>function setFocusOnLoad() {}</script> <!-- disable vf setting focus to first input field-->
+            <apex:pageBlockTable value="{!knights}" var="knight">
+                <apex:column headervalue="Title">
+                    <apex:outputfield value="{!knight.Title__c}" />
+                </apex:column>             
+                <apex:column headervalue="Name">
+                    <apex:outputfield value="{!knight.Name}" />
+                </apex:column> 
+                <apex:column headervalue="Role">
+                    <apex:outputfield value="{!knight.Type__c}" />
+                </apex:column>                 
+                <apex:column headervalue="Edit Page - Internal Redirect">
+                    <apex:outputLink target="_new" value="/{!knight.id}/e?retURL=/apex/Standard_Redirect_Protections_Demo">Click me</apex:outputLink>
+                </apex:column>
+                <apex:column headervalue="Edit Page - External Redirect">
+                    <apex:outputLink target="_new" value="/{!knight.id}/e?retURL=https://www.youtube.com/watch?v=dQw4w9WgXcQ">Click me</apex:outputLink>
+                </apex:column>                                                                             
+            </apex:pageBlockTable>
+
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="Standard_Redirect_Protections_Demo" description="Visualforce Page"/></li>            
+                    <li><c:codeLink type="Apex" namespace="security_thail" name="Standard_Redirect_Protections_Demo" description="Apex Controller"/></li>
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>          
+</apex:form>              
+</apex:page>

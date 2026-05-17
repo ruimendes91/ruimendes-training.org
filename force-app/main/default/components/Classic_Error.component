@@ -1,0 +1,3 @@
+<apex:component >
+  <apex:pageMessage summary="Error: This app has been designed for Salesforce Classic UI, not Lightning. Please switch to Salesforce Classic before continuing." severity="error" strength="3" rendered="{! $User.UIThemeDisplayed != 'Theme3' }"/>
+</apex:component>

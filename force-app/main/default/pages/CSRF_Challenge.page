@@ -1,0 +1,45 @@
+<apex:page controller="CSRF_Challenge" sidebar="false" tabStyle="CSRF_Challenge__tab" action="{!approveReq}">
+<apex:sectionHeader title="CSRF Challenge" />
+<apex:form >
+    <apex:pageBlock >
+        <apex:pageMessages />      
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+
+            <apex:pageBlockTable value="{!Requisitions }" var="req">
+                <apex:column headervalue="Castle">
+                    <apex:outputfield value="{!req.Castle__c}" />
+                </apex:column>             
+                <apex:column headervalue="Resource">
+                    <apex:outputfield value="{!req.Resource__c }" />
+                </apex:column> 
+                <apex:column headervalue="Quantity">
+                    <apex:outputfield value="{!req.Quantity__c}" />
+                </apex:column>
+                <apex:column headervalue="Name">
+                    <apex:outputfield value="{!req.Name}" />
+                </apex:column> 
+                <apex:column headervalue="Approved">
+                    <apex:outputfield value="{!req.Approved__c}" />
+                </apex:column>                                                  
+                <apex:column headervalue="Approval Action">
+                    <apex:outputLink target="_new" value="/apex/CSRF_Challenge?approve={!req.id}">Approve This Requisition</apex:outputLink>
+                </apex:column>
+                <apex:column headervalue="Approval Action (NO CSRF)">
+                    TBD
+                    <!-- complete challenge here -->
+
+                </apex:column>                                                                                               
+            </apex:pageBlockTable>
+       
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="CSRF_Challenge" description="Visualforce Page"/></li>            
+                    <li><c:codeLink type="Apex" namespace="security_thail" name="CSRF_Challenge" description="Apex Controller"/></li>
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>          
+</apex:form>              
+</apex:page>

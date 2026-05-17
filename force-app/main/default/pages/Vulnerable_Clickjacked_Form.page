@@ -1,0 +1,35 @@
+<apex:page controller="ClickjackingController" sidebar="false" tabStyle="Disloyal_Subjects__tab">
+<apex:sectionHeader title="Disloyal Subjects" />
+
+    <apex:pageBlock id="pgBlock">
+     <apex:form >
+        <apex:pageMessages />      
+            <script>function setFocusOnLoad() {}</script> <!-- disable vf setting focus to first input field-->
+            <apex:pageBlockTable value="{!accused}" var="u"> 
+            	<apex:column headervalue="Banish Subject">
+                	<apex:commandLink value="Send to the High Tower" action="{!sendToTower}" reRender="pgBlock"> 
+                		<apex:param value="{!u.Id}" assignTo="{!sendId}" name="sendId" />
+                	</apex:commandLink> 
+                </apex:column>     
+                <apex:column headervalue="Name">
+                    <apex:outputfield value="{!u.Name}" />
+                </apex:column> 
+                <apex:column headervalue="Castle">
+                    <apex:outputfield value="{!u.Castle__c}" />
+                </apex:column>                     
+                <apex:column headervalue="Role">
+                    <apex:outputfield value="{!u.Type__r.Name}" /> 
+                </apex:column>
+                <apex:column headervalue="Assignment">
+                    <apex:inputfield value="{!u.Assignment__c}" />
+                </apex:column>                <apex:column headervalue="Disloyal Subject">
+                	<apex:inputfield value="{!u.Disloyal_Subject__c}" />
+                </apex:column>
+
+                                                                    
+            </apex:pageBlockTable>
+            <apex:outputText value="{!message}"/>
+        </apex:form>       
+    </apex:pageBlock>          
+            
+</apex:page>

@@ -1,0 +1,25 @@
+<aura:component controller="LTNG_Unsafe_Href_Controller" access="global" implements="force:appHostable">
+    <aura:attribute name="region" type="Region__c"/>
+    <aura:attribute name="safeCommonMonster" type="string"/> 
+    <div class="slds-row slds-align--absolute-center">
+        <div class="slds-panel slds-size--4-of-6 ">
+            <lightning:input label="Get Region information:" name="InputName" aura:id="InputName" />
+            <ui:button label="Search Region" press="{!c.getRegionInfoFunction}"/><BR />
+        </div>
+    </div>
+    <div class="slds-row slds-align--absolute-center">
+        <div class="slds-panel slds-size--4-of-6">
+            <label>Id: </label><ui:outputText value="{!v.region.Id}" /> <BR />
+            <label>Name: </label><ui:outputText value="{!v.region.Name}" /> <BR />
+            <label>Common Monster (Unsafe - Bypassable with '/example.com'): </label><a href="{!v.region.Common_Monster__c}">Common monster</a><BR />
+            <label>Common Monster (Safe - JS Alphanum+Num check): </label><a href="{!'/' + v.safeCommonMonster}">Common monster</a>
+        </div>
+    </div>
+    
+    <hr />
+    <div class="slds-row slds-align--absolute-center">
+        <div class="slds-size--4-of-6">
+            <c:CodeInstructions componentName="DemoUnsafeHrefCmp" />
+        </div>
+    </div>
+</aura:component>

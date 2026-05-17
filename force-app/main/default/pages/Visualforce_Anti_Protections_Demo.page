@@ -1,0 +1,42 @@
+<apex:page controller="Visualforce_Anti_Protections_Demo" sidebar="false" tabStyle="Visualforce_Anti_Protections_Demo__tab" action="{!seedURL}">
+<apex:sectionHeader title="Visualforce Anti-Protections Demo" />
+<apex:form >
+    <apex:pageBlock >
+        <c:Classic_Error />
+        <apex:pageMessages />      
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+            <script>function setFocusOnLoad() {}</script> <!-- disable vf setting focus to first input field-->
+            <apex:pageBlockTable value="{!requisitions}" var="rec">        
+                <apex:column headervalue="Name">
+                    <apex:inputfield value="{!rec.Name}" />
+                </apex:column> 
+                <apex:column headervalue="Castle">
+                    <apex:inputfield value="{!rec.Castle__c}" />
+                </apex:column>                     
+                <apex:column headervalue="Resource">
+                    <apex:inputfield value="{!rec.Resource__c}" />
+                </apex:column>
+                <apex:column headervalue="Quantity">
+                    <apex:inputfield value="{!rec.Quantity__c}" />
+                </apex:column>
+                <apex:column headervalue="Description">
+                    <apex:inputfield value="{!rec.Description__c}" />
+                </apex:column>                                                                                     
+            </apex:pageBlockTable>
+            <apex:outputPanel >
+                <apex:commandButton action="{!save}" value="Save"/>         
+                <apex:commandButton action="{!cancel}" value="Cancel"/> 
+            </apex:outputPanel>
+       
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="Visualforce_Anti_Protections_Demo" description="Visualforce Page"/></li>            
+                    <li><c:codeLink type="Apex" namespace="security_thail" name="Visualforce_Anti_Protections_Demo" description="Apex Controller"/></li>
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>          
+</apex:form>              
+</apex:page>

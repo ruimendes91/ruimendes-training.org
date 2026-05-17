@@ -1,0 +1,22 @@
+<aura:component implements="force:appHostable" access="global">
+    <aura:attribute name="sleepingGuard" default="false" type="Boolean" />
+    <div class="slds-row slds-align--absolute-center">
+        <div class="slds-size--3-of-6">
+        	<div class="slds-row slds-align--absolute-center">
+        		<div class="slds-panel slds-size--4-of-6 ">
+                    <h2 class="slds-text-heading--medium">Welcome to the castle.  Be warned, a guard will keep the castle from going over its person allocation</h2>
+                    <ui:inputCheckbox label="Guard Asleep?" value="{!v.sleepingGuard}" />
+                </div>
+                <div class="slds-pabel slds-size--2-of-6">
+                    <c:LTNG_Access_Control_Challenge guardAsleep="{!v.sleepingGuard}"/>
+                </div>
+    		</div>
+        </div>
+    </div>
+    <hr />
+    <div class="slds-row slds-align--absolute-center">
+        <div class="slds-size--4-of-6">
+    		<c:CodeInstructions componentName="LTNG_Access_Control_Demo" />
+        </div>
+    </div>
+</aura:component>

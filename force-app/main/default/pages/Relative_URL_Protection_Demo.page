@@ -1,0 +1,39 @@
+<apex:page controller="Relative_URL_Protection_Demo" sidebar="false" tabStyle="Relative_URL_Protection_Demo__tab" action="{!seedURL}">
+<apex:sectionHeader title="Relative URL Protection Demo" />
+<apex:form >
+    <apex:pageBlock >
+        <c:Classic_Error />
+        <apex:pageMessages />      
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+            <script>function setFocusOnLoad() {}</script> <!-- disable vf setting focus to first input field-->
+            <apex:pageBlockTable value="{!unassigned}" var="u">      
+                <apex:column headervalue="Name">
+                    <apex:outputfield value="{!u.Name}" />
+                </apex:column> 
+                <apex:column headervalue="Castle">
+                    <apex:outputfield value="{!u.Castle__c}" />
+                </apex:column>                     
+                <apex:column headervalue="Role">
+                    <apex:outputfield value="{!u.Role__c}" />
+                </apex:column>
+                <apex:column headervalue="Assignment">
+                    <apex:inputfield value="{!u.Assignment__c}" />
+                </apex:column>                                                                                
+            </apex:pageBlockTable>
+            <apex:outputPanel >
+                <apex:commandButton action="{!save}" value="Save"/>
+                <a href="/{!$CurrentPage.Parameters.onCancel}" id="cancelbutton"><button type="button">Cancel</button></a>
+
+            </apex:outputPanel> 
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="Relative_URL_Protection_Demo" description="Visualforce Page"/></li>            
+                    <li><c:codeLink type="Apex" namespace="security_thail" name="Relative_URL_Protection_Demo" description="Apex Controller"/></li>
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>          
+</apex:form>              
+</apex:page>

@@ -1,0 +1,174 @@
+name: Run Using Delta Workflow
+
+on:
+  workflow_call:
+    inputs:
+      from:
+        type: string
+        required: true
+      to:
+        type: string
+        required: true
+      test-level:
+        type: string
+        required: true
+      as-dry-run:
+        type: boolean
+        required: true
+      with-destructive-changes:
+        type: boolean
+        required: true
+      should-run:
+        type: boolean
+        required: true
+    secrets:
+      sfdx-auth-url:
+        required: true
+
+jobs:
+  run-using-delta:
+    name: Run Using Delta
+    runs-on: ubuntu-latest
+    if: ${{ inputs.should-run }}
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Install Salesforce CLI
+        run: npm install --global @salesforce/cli@latest
+
+      - name: Install SGD Plugin
+        run: echo y | sf plugins install sfdx-git-delta
+
+      - name: Calculate Git Commits
+        id: commits
+        run: |
+          echo "to=${{ inputs.to }}" >> $GITHUB_OUTPUT
+          echo "from=$(git merge-base ${{ inputs.to }} ${{ inputs.from }})" >> $GITHUB_OUTPUT
+
+      - name: Generate Delta
+        run: |
+          sf sgd source delta \
+            --from ${{ steps.commits.outputs.from }} \
+            --to ${{ steps.commits.outputs.to }} \
+            --output-dir .
+
+      - name: Debug Package XML
+        run: cat package/package.xml
+
+      - name: Debug Destructive Changes XML
+        run: cat destructiveChanges/destructiveChanges.xml
+
+      - name: Authorize Org
+        run: echo "${{ secrets.sfdx-auth-url }}" | sf org login sfdx-url --alias org-to-deploy --sfdx-url-stdin
+
+      - name: Detect Metadata Changes
+        id: detect-metadata-changes
+        run: |
+          CONSTRUCTIVE_CHANGES=$(
+            git diff \
+              --diff-filter=ACMRT \
+              --name-only \
+              ${{ steps.commits.outputs.from }} \
+              ${{ steps.commits.outputs.to }} \
+              -- 'force-app/'
+          )
+
+          DESTRUCTIVE_CHANGES=$(
+            git diff \
+              --diff-filter=D \
+              --name-only \
+              ${{ steps.commits.outputs.from }} \
+              ${{ steps.commits.outputs.to }} \
+              -- 'force-app/'
+          )
+
+          if [[ -z "$CONSTRUCTIVE_CHANGES" ]]; then
+            echo "has-constructive-changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has-constructive-changes=true" >> $GITHUB_OUTPUT
+          fi
+
+          if [[ -z "$DESTRUCTIVE_CHANGES" ]]; then
+            echo "has-destructive-changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has-destructive-changes=true" >> $GITHUB_OUTPUT
+          fi
+
+          if [[ -z "$CONSTRUCTIVE_CHANGES" && -z "$DESTRUCTIVE_CHANGES" ]]; then
+            echo "No metadata changes detected."
+            echo "has-changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Metadata changes detected."
+            echo "has-changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Select Test Level
+        id: select-test-level
+        run: |
+          TEST_LEVEL="${{ inputs.test-level }}"
+          WITH_DESTRUCTIVE_CHANGES="${{ inputs.with-destructive-changes }}"
+          HAS_DESTRUCTIVE_CHANGES="${{ steps.detect-metadata-changes.outputs.has-destructive-changes }}"
+
+          if [[ "$TEST_LEVEL" != "NoTestRun" ]] && [[ "$WITH_DESTRUCTIVE_CHANGES" = "true" ]] && [[ "$HAS_DESTRUCTIVE_CHANGES" = "true" ]]; then
+            SELECTED_TEST_LEVEL="RunLocalTests"
+          else
+            SELECTED_TEST_LEVEL="$TEST_LEVEL"
+          fi
+
+          echo "Selected test level: $SELECTED_TEST_LEVEL"
+          echo "test-level=$SELECTED_TEST_LEVEL" >> $GITHUB_OUTPUT
+
+      - name: Start
+        id: start
+        if: ${{ steps.detect-metadata-changes.outputs.has-changes == 'true' }}
+        run: |
+          SF_START_ARGUMENTS=(
+            "--target-org" "org-to-deploy"
+            "--manifest" "package/package.xml"
+            "--coverage-formatters" "text"
+            "--wait" "1440"
+            "--verbose"
+            "--ignore-conflicts"
+            "--test-level" "${{ steps.select-test-level.outputs.test-level }}"
+          )
+
+          if [ "${{ inputs.as-dry-run }}" = "true" ]; then
+            SF_START_ARGUMENTS+=("--dry-run")
+          fi
+
+          if [ "${{ inputs.with-destructive-changes }}" = "true" ] && [ "${{ steps.detect-metadata-changes.outputs.has-destructive-changes }}" = "true" ]; then
+            SF_START_ARGUMENTS+=("--pre-destructive-changes" "destructiveChanges/destructiveChanges.xml")
+          fi
+
+          sf project deploy start "${SF_START_ARGUMENTS[@]}"
+
+      - name: Show Coverage
+        if: ${{ always() && (steps.start.outcome == 'success' || steps.start.outcome == 'failure') }}
+        continue-on-error: true
+        run: cat coverage/coverage/text.txt || echo "No coverage report"
+
+      - name: Cancel If Needed
+        continue-on-error: true
+        if: ${{ always() && (steps.start.outcome == 'failure' || steps.start.outcome == 'cancelled') }}
+        run: sf project deploy cancel --use-most-recent --wait 1440
+
+      - name: Store Deployment Metrics
+        if: ${{ always() && steps.start.outcome != 'skipped' && steps.detect-metadata-changes.outputs.has-changes == 'true' }}
+        continue-on-error: true
+        run: |
+          sf project deploy report \
+            --use-most-recent \
+            --coverage-formatters json-summary \
+            --json > deploy-output.json
+
+          node .github/scripts/process-deployment-results deploy-output.json org-to-deploy

@@ -1,0 +1,21 @@
+<apex:page sidebar="false" tabStyle="Mixed_Content__tab">
+<apex:sectionHeader title="Mixed Content" />
+<apex:form >
+    <apex:pageBlock >
+        <c:Classic_Error />
+        <apex:pageMessages />      
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+
+        <apex:image value="http://www.castles.org/images/sd2_small.jpg"/>
+
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="Mixed_Content" description="Visualforce Page"/></li>            
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>          
+</apex:form>              
+</apex:page>

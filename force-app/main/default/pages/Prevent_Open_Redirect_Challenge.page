@@ -1,0 +1,27 @@
+<apex:page controller="Prevent_Open_Redirect_Challenge" sidebar="false" tabStyle="Prevent_Open_Redirect_Challenge__tab" action="{!seedURL}">
+<apex:sectionHeader title="Prevent Open Redirect Challenge" />
+<apex:form >
+    <apex:pageBlock >
+        <c:Classic_Error />
+        <apex:pageMessages />      
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+            <apex:outputPanel >
+                <apex:outputText value="Create a new resource of type: "/><apex:outputField value="{!rtype.recordtypeid}"/><br/>
+                <br/>
+                <apex:outputText value="New Resource Name: "/><apex:inputField value="{!rtype.name}"/> <br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:commandButton action="{!save}" value="Save"/>            
+            </apex:outputPanel>       
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="Prevent_Open_Redirect_Challenge" description="Visualforce Page"/></li>            
+                    <li><c:codeLink type="Apex" namespace="security_thail" name="Prevent_Open_Redirect_Challenge" description="Apex Controller"/></li>
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>          
+</apex:form>              
+</apex:page>

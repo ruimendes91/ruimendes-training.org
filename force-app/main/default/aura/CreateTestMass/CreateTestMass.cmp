@@ -1,0 +1,34 @@
+<aura:component controller="CreateTestMassController"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global">
+
+
+    <aura:attribute name="recordsToCreate" type="Integer" default="10" />
+    <aura:attribute name="statusOfCreation" type="String" default="" />
+    <aura:attribute name="isloading" type="Boolean" default="false" />
+
+
+
+
+    <lightning:card>
+        <aura:if isTrue="{! v.isloading }">
+            <lightning:spinner alternativeText="Loading" />
+        </aura:if>
+        <aura:set attribute="title">
+            <lightning:icon iconName="standard:bot" />
+            &nbsp; <b>Create Test Mass </b>
+        </aura:set>
+        <div style="padding: 4%;">
+            {!v.statusOfCreation}
+            <lightning:input type="number" label="Records to Create" name="inputNumerOfRecordToCreate"
+                value="{! v.recordsToCreate }" />
+            <br />
+            <center>
+                <lightning:button variant="brand" label="Create Test Mass" title="Brand action"
+                    onclick="{! c.create }" />
+            </center>
+
+        </div>
+    </lightning:card>
+
+</aura:component>

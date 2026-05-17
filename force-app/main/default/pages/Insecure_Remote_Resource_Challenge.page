@@ -1,0 +1,30 @@
+<apex:page sidebar="false" tabStyle="Insecure_Remote_Resource_Challenge__tab">
+<apex:sectionHeader title="Insecure Remote Resource Challenge" />
+<apex:form >
+    <apex:pageBlock >
+        <c:Classic_Error />
+        <apex:pageMessages />      
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+
+        <apex:includeScript value="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.0.min.js"/>
+        <h1 id="heading1">Hello, this is my castle</h1> 
+        <apex:image url="http://s10.postimg.org/p4wz1txrr/Castle.png"/>
+        <script>
+        $(document).ready(function(){
+            $("#btn2").click(function(){
+                $("#heading1").html("<b>See all my castles <a href=\"/a02/o\">here!!</a></b>");
+            });            
+            });
+        </script>
+        <button id="btn2" type="button">Set HTML</button>
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="Insecure_Remote_Resource_Challenge" description="Visualforce Page"/></li>            
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>          
+</apex:form>              
+</apex:page>

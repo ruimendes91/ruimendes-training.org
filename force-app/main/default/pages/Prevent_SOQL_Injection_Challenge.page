@@ -1,0 +1,63 @@
+<apex:page controller="Prevent_SOQL_Injection_Challenge" sidebar="false" tabStyle="Prevent_SOQL_Injection_Challenge__tab">
+<apex:sectionHeader title="Prevent SOQL Injection Challenge" />
+<apex:form >
+    <apex:pageBlock >
+        <c:Classic_Error />
+        <apex:pageMessages />      
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+         <apex:outputPanel >
+        Search the existing supplies!
+        </apex:outputPanel>
+        <apex:outputPanel >
+            Search by supply name:
+            <apex:inputtext value="{!textOne}"/><apex:commandButton value="Perform Search" action="{!stringSearchOne}"/>
+        </apex:outputPanel>
+        <apex:outputPanel >
+            Search by storage location:
+            <apex:inputtext value="{!textTwo}"/><apex:commandButton value="Perform Search" action="{!stringSearchTwo}"/>
+        </apex:outputPanel>     
+        <apex:outputPanel >
+            Search by quantity name:
+            <apex:selectList value="{!comparator}" size="1">
+                <apex:selectOption itemValue="" itemLabel=""/>
+                <apex:selectOption itemValue=">" itemLabel=">"/>
+                <apex:selectOption itemValue="<" itemLabel="<"/>
+                <apex:selectOption itemValue="=" itemLabel="="/>
+            </apex:selectList> 
+            <apex:inputtext value="{!numberOne}"/><apex:commandButton value="Perform Search" action="{!numberSearchOne}"/>
+        </apex:outputPanel>                
+        
+        
+        <apex:pageBlockTable value="{!whereclause_records}" var="r">
+            <apex:column headervalue="ID">         
+                <apex:outputField value="{!r.Id}"/>
+            </apex:column> 
+
+            <apex:column headervalue="Name">         
+                <apex:outputField value="{!r.name}"/>
+            </apex:column> 
+            
+            <apex:column headervalue="Quantity">         
+                <apex:outputField value="{!r.Quantity__c}"/>
+            </apex:column> 
+
+            <apex:column headervalue="Castle">         
+                <apex:outputField value="{!r.Storage_Location__r.Castle__c}"/>
+            </apex:column> 
+
+            <apex:column headervalue="Storage Location">         
+                <apex:outputField value="{!r.Storage_Location__c}"/>
+            </apex:column>                                                                                           
+        </apex:pageBlockTable> 
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="Prevent_SOQL_Injection_Challenge" description="Visualforce Page"/></li>            
+                    <li><c:codeLink type="Apex" namespace="security_thail" name="Prevent_SOQL_Injection_Challenge" description="Apex Controller"/></li>
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>          
+</apex:form>              
+</apex:page>

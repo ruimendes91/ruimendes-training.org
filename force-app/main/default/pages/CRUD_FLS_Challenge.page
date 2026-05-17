@@ -1,0 +1,40 @@
+<apex:page controller="CRUD_FLS_Challenge" tabStyle="CRUD_FLS_Challenge__tab">
+<apex:sectionHeader title="CRUD & FLS Challenge"/>
+
+    <apex:pageBlock >
+        <c:Classic_Error />
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+        <c:LoginAs string_url="/apex/CRUD_FLS_Challenge" array_permset="{!PermSets}"/> 
+            <apex:pageBlockSection >
+                <apex:form >
+                    <h1>Are you feeling lucky? Open the treasure chest to claim your prize!</h1><br/><br/>
+                
+                <apex:image id="theImage" value="{!$Resource.treasure_chest}"/><br/><br/>
+                <apex:commandButton value="Open Chest" action="{!getRandomTreasure}" rendered="{!ISBLANK(chestContents)}"/>
+                <apex:OutputText rendered="{!NOT(ISBLANK(chestContents))}" value="Congrats, you've found {!chestContents}!"/> <!-- chestContents is vulnerable YES / NO -->
+                </apex:form>
+            </apex:pageBlockSection>
+            <br/>
+            <h3>List of Potential Prizes!</h3>
+            <apex:pageBlockTable value="{!treasures}" var="p">
+                <apex:column headervalue="Name">
+                    <apex:OutputText value="{!p.Name}" /> <!-- p.Name is vulnerable YES / NO -->
+                </apex:column>
+                <apex:column headervalue="Description">
+                    <apex:OutputText value="{!p.Description__c}" /> <!-- p.Description__c is vulnerable YES / NO -->
+                </apex:column>                                                                               
+            </apex:pageBlockTable>
+
+            
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="CRUD_FLS_Challenge" description="Visualforce Page"/></li>
+                    <li><c:codeLink type="Apex" namespace="security_thail" name="CRUD_FLS_Challenge" description="Apex Controller"/></li>              
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>
+
+</apex:page>

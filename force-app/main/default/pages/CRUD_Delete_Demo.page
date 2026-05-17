@@ -1,0 +1,41 @@
+<apex:page controller="CRUD_Delete_Demo" tabStyle="CRUD_FLS_Apex_Demo__tab">
+<apex:sectionHeader title="CRUD & FLS Apex Demo"/>
+    <apex:pageBlock >
+            <c:Classic_Error />
+            <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+                <c:LoginAs string_url="/apex/CRUD_Delete_Demo" array_permset="{!PermSets}"/> 
+                <apex:pageMessages />
+                <h3>Current Supply Requests</h3>
+                <apex:form >
+                <apex:pageBlockTable value="{!req}" var="p">
+                        <apex:column headervalue="Name">
+                            <apex:OutputText value="{!p.Resource__r.Name}" /> 
+                        </apex:column>
+                        <apex:column headervalue="Castle">
+                            <apex:OutputText value="{!p.Castle__r.Name}" />
+                        </apex:column>
+                        <apex:column headervalue="Description">
+                            <apex:OutputText value="{!p.Description__c}" />
+                        </apex:column>
+                        <apex:column headervalue="Quantity">
+                            <apex:OutputText value="{!p.Quantity__c}" />
+                        </apex:column>
+                        <apex:column >
+                            <apex:commandLink action="{!deleteRequest}" value="Del">
+                                <apex:param name="id" assignTo="{!id}" value="{!p.Id}"/>
+                                </apex:commandLink>
+                        </apex:column>                                                                                   
+                </apex:pageBlockTable> 
+                </apex:form> 
+        </apex:pageBlockSection>                
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="CRUD_Delete_Demo" description="Visualforce Page"/></li>
+                    <li><c:codeLink type="Apex" namespace="security_thail" name="CRUD_Delete_Demo" description="Apex Controller"/></li>              
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>
+    
+</apex:page>

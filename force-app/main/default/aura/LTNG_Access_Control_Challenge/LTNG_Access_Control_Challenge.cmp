@@ -1,0 +1,20 @@
+<aura:component access="global">
+	<aura:attribute name="personQuota" access="private" type="Decimal" default="25"/>
+	<aura:attribute name="currentPeople" access="private" type="Decimal" default="10" />
+  	<!-- Global may be too permissive here, private would be better since only the CEO decides commissions -->
+  	<aura:attribute name="guardAsleep" access="global" type="Boolean" default="false" />
+  	
+  	<div class="slds-row slds-align--absolute-center">
+  	<div class="slds-panel slds-size--4-of-6">
+        <article class="slds-card">
+        	<div class="slds-card__header">
+                Welcome to the castle.  We have a strict quota of {!v.personQuota} citizens
+            </div>
+            <div class="slds-card__body">
+                <ui:outputNumber value="{!v.currentPeople}"/> People<br />
+                <ui:button press="{!c.attemptEntry}" label="Enter"/>
+            </div>
+        </article>
+    </div>
+  </div>
+</aura:component>

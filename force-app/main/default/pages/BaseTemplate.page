@@ -1,0 +1,31 @@
+<apex:page >
+        
+         <apex:pageBlock >
+             <apex:pageMessages />
+             <apex:pageBlockSection title="Setup and Security Controls" id="setupAndSecurityControlsSection" columns="1">
+             
+                <apex:insert name="setupAndSecurityControls" />
+             
+             </apex:pageBlockSection>
+             
+             <apex:pageBlockSection title="Tasks" id="tasksSection" columns="1">
+             
+                 <apex:insert name="tasks" /> 
+                 
+            </apex:pageBlockSection>
+            
+             <apex:pageBlockSection title="Demo" columns="1" id="demoSection">
+             
+                 <apex:insert name="demo" /> 
+                 
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection title="Code links"  id="codeLinksSection" columns="1">
+            
+                 <apex:insert name="codeLinks" /> 
+                 
+            </apex:pageBlockSection>
+        </apex:pageBlock>  
+                
+
+</apex:page>

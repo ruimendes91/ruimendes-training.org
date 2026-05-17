@@ -1,0 +1,19 @@
+<apex:page sidebar="false" controller="XSS_Script_Context_Demo" action="{!seedURL}">
+<apex:sectionHeader title="XSS in Script Context"/>
+    <apex:pageBlock >
+        <apex:pageMessages />      
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+            <script>
+                var a = '{!$CurrentPage.parameters.userInput}';
+            </script>
+            <apex:outputtext >The value of the userInput parameter is: {!$CurrentPage.parameters.userInput}</apex:outputtext>          
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="XSS_in_Script_Context" description="Visualforce Page"/></li>            
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>                      
+</apex:page>

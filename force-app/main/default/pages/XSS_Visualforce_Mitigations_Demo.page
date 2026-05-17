@@ -1,0 +1,54 @@
+<apex:page controller="XSS_Visualforce_Mitigations_Demo" sidebar="false" tabStyle="XSS_Visualforce_Mitigations_Demo__tab" action="{!seedURL}">
+<apex:sectionHeader title="XSS Visualforce Mitigations Demo" />
+<apex:form >
+    <apex:pageBlock >
+        <c:Classic_Error />
+        <apex:pageMessages />      
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+
+            <apex:outputPanel >
+              <apex:outputText value="Welcome, <b>{!$CurrentPage.Parameters.user}</b>!" escape="false"/><br/>
+                
+                <apex:outputText value="You are viewing the castle friend finder! We have randomly selected a friend for you." escape="false"/><br/>
+                <apex:outputText id="output1" value=""/>
+                <apex:outputText id="output2" value=""/>
+                <script>
+                    var vip = '{!title}';
+
+                    if(vip!=''){
+                        document.getElementById('{!$Component.output1}').innerHTML = '<br/>This person is a: <br/>&nbsp;-----<br/>| VIP |<br/>&nbsp;-----<br/>LUCKY YOU!';
+                    } else {
+                        document.getElementById('{!$Component.output1}').innerHTML = '<br/>This person is a peasant';
+                    }  
+
+                    var html = '<br/><br/><b>---------------------</b>';
+                    html += '<br/>Personnel Name: {!JSENCODE(name)}';
+                    html += '<br/>Favorite color: {!JSENCODE(color)}';
+                    html += '<br/>Favorite animal: {!JSENCODE(animal)}';
+                    html += '<br/><b>---------------------</b>';
+                    document.getElementById('{!$Component.output2}').innerHTML = html;
+                    
+                </script>
+                
+            </apex:outputPanel>
+            
+            <apex:outputPanel >
+                <br/><br/>
+                <apex:commandButton value="Click here to view the JavaScript based XSS!" action="{!JSXSS}"/>
+                <apex:commandButton value="Click here to view the HTML based XSS!" action="{!HTMLXSS}"/>
+                <apex:commandButton value="Click here to view the Javascript + HTML based XSS!" action="{!JSINHTMLXSS}"/>
+                <apex:commandButton value="Remove All XSS" action="{!REMOVEXSS}"/>
+            </apex:outputPanel>
+
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="XSS_Visualforce_Mitigations_Demo" description="Visualforce Page"/></li>            
+                    <li><c:codeLink type="Apex" namespace="security_thail" name="XSS_Visualforce_Mitigations_Demo" description="Apex Controller"/></li>
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>          
+</apex:form>              
+</apex:page>

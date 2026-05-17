@@ -1,0 +1,32 @@
+<apex:page controller="CSRF_Mitigation_Demo" sidebar="false" action="{!performInitAction}" tabStyle="CSRF_Mitigation_Demo__tab">
+<apex:sectionHeader title="CSRF Mitigation Demo" />
+<apex:form >
+    <apex:pageBlock >
+        <apex:pageMessages />      
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+            <apex:outputText value="List of Squires"/>
+                <apex:pageBlockTable value="{!PersonList}" var="person" id="accTable">
+                    <apex:column id="currPer"><apex:outputLink target="_blank" value="/{!person.id}">{!person.Name}</apex:outputLink></apex:column>
+                    <apex:column id="currPerRole" headerValue="Role" value="{!person.Type__r.Name}"/>
+                    <apex:column > <apex:outputLink value="/apex/CSRF_Mitigation_Demo?UserID={!person.Id}"> Knight This Squire </apex:outputLink> </apex:column>
+                </apex:pageBlockTable>
+            <apex:outputText value="{!message}" style="color:red"/>
+            <apex:outputText value="List of Knights"/>
+                <apex:pageBlockTable value="{!KnightList}" var="knight" id="knightTable">
+                    <apex:column id="currPer"><apex:outputLink target="_blank" value="/{!knight.id}">{!knight.Name}</apex:outputLink></apex:column>
+                    <apex:column id="currPerRole"  width="50%" headerValue="Role" value="{!knight.Type__r.Name}"/>
+    
+                </apex:pageBlockTable>
+       
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="CSRF_Mitigation_Demo" description="Visualforce Page"/></li>            
+                    <li><c:codeLink type="Apex" namespace="security_thail" name="CSRF_Mitigation_Demo" description="Apex Controller"/></li>
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>          
+</apex:form>              
+</apex:page>

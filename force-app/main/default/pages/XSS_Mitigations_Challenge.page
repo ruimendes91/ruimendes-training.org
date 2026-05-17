@@ -1,0 +1,49 @@
+<apex:page controller="XSS_Mitigations_Challenge" sidebar="false" tabStyle="XSS_Mitigations_Challenge__tab">
+<apex:sectionHeader title="XSS Mitigations Challenge" />
+<apex:form >
+    <apex:pageBlock >
+        <c:Classic_Error />
+        <apex:pageMessages />      
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+            <c:codeLink type="Visualforce" namespace="" edit="true" name="XSS_Mitigations_Challenge" description="Edit this Visualforce page to perform the challenge."/>
+            
+            
+            <apex:outputText value="{!sampleMergeField1}"/>
+
+
+            <apex:outputText value="{!sampleMergeField2}" escape="false"/>
+
+
+            <apex:outputText >
+                {!sampleMergeField3}
+            </apex:outputText>
+       
+       
+            <script>
+                document.write('{!sampleMergeField4}');
+            </script>
+             
+            
+            {!sampleMergeField5}
+            
+            
+            <script>
+                var x = '{!sampleMergeField6}';
+            </script>
+            
+            
+            <apex:outputLabel value="{!sampleMergeField7}" escape="false"/>
+                     
+
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="XSS_Mitigations_Challenge" description="Visualforce Page"/></li>            
+                    <li><c:codeLink type="Apex" namespace="security_thail" name="XSS_Mitigations_Challenge" description="Apex Controller"/></li>
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>          
+</apex:form>              
+</apex:page>

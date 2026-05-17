@@ -1,0 +1,13 @@
+<aura:component controller="LTNG_Creatures_Controller" access="global" implements="force:appHostable">
+    <aura:attribute name="creatures" type="string"/>
+    
+    <div class="slds-row slds-align--absolute-center">
+        <div class="slds-panel slds-size--4-of-6 ">
+            <ui:outputText value="Click the button to get all Creatures" /><BR />
+            <ui:button label="Get All Creatures" press="{!c.getAllCreaturesAction}"/><BR />
+            <BR />
+            <aura:unescapedHTML value="{!v.creatures}" />
+        </div>
+    </div>
+    
+</aura:component>

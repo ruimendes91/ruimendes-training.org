@@ -1,0 +1,25 @@
+<apex:page controller="OrgValidity">
+<apex:form >
+<apex:pagemessages ></apex:pagemessages>
+<apex:pageblock title="Welcome to the Kingdom Management Developer Org!">
+  In this org you'll find all the demo and challenge apps associated with the <a href="https://trailhead.salesforce.com/trail/security_developer">Develop Secure Web Apps Trail</a>. In this trail you will learn how to detect and prevent common vulnerabilities in your code and strengthen your web apps!<br/><br/>
+  
+  <apex:pageMessage title="Warning" summary="Please keep in mind that the code in this org is intentionally filled with certain kinds of vulnerabilities and should be used for educational purposes only" severity="Warning" strength="3"/><br/>
+  <apex:pageblockSection title="Org Status" columns="1">
+    This org is updated occasionally to support new trailhead releases as well as any bug fixes in the custom apps deployed in the org. By referencing our <a href="{!releaseNotes}">release notes</a> and leverging our org status checker below you can quickly verify if you're utilzing the latest and greatest code. If you are out of date you can just simply sign up for a fresh copy of the org using the <a href="https://developer.salesforce.com/promotions/orgs/trust-de">signup link</a>
+    <apex:outputpanel rendered="{!ValidSuccess!=null}">
+        <apex:pageMessage summary="Your org is up to date! No action required." severity="confirm" strength="2"/>
+    </apex:outputpanel>
+    <apex:outputpanel rendered="{!ValidFail!=null}">
+      <apex:pageMessage severity="Error" summary="Your Org is out of date. Please signup for a fresh org: https://developer.salesforce.com/promotions/orgs/trust-de" strength="2"/>
+    </apex:outputpanel>
+  </apex:pageblockSection>
+  <apex:pageblockSection title="Resources" columns="1">
+      <ul>
+      <li>Having trouble with the challenges or technical issues with the apps? Post your questions on the <a href="https://developer.salesforce.com/forums?communityId=09a5I0000000CibIA2#!/feedtype=RECENT&dc=Trailhead&criteria=ALLQUESTIONS">Developer forum</a> or the <a href="http://salesforce.stackexchange.com/questions/tagged/trailhead">Salesforce Stack Exchange</a><br/></li>
+      <li>For more technical resources and general information about everything security related at Salesforce check out the <a href="https://developer.salesforce.com/devcenter/security">Security Dev Center</a></li>
+      </ul>
+  </apex:pageBlockSection>
+</apex:pageblock>
+</apex:form>
+</apex:page>

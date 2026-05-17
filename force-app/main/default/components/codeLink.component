@@ -1,0 +1,11 @@
+<apex:component controller="CodeLinkController">
+	<apex:attribute name="type" description="Type of code to link to.  Allowed values: VisualForce, apex, or component" type="String" required="true" assignTo="{!codeType}"/>
+	<apex:attribute name="name" description="Name of the file" type="String" required="true" assignTo="{!codeName}"/>
+	<apex:attribute name="namespace" description="Namespace where code resides. Blank for local namespace" type="String" required="false" assignTo="{!codeNamespace}"/>
+	<apex:attribute name="description" description="Description of link." type="String" required="true"/>
+	<apex:attribute name="edit" description="Link to edit view. Avaliable if local namespace." type="Boolean" required="false"/>
+	
+	<apex:outputPanel rendered="{!codeId != ''}">
+		<a href="/{!codeId + IF(edit && (namespace == ''), '/e','')}" target="_blank">{!description}</a>
+	</apex:outputPanel>
+</apex:component>

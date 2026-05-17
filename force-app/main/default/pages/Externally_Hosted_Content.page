@@ -1,0 +1,20 @@
+<apex:page sidebar="false">
+<apex:sectionHeader title="Externally Hosted Content" />
+<apex:form >
+    <apex:pageBlock >
+        <apex:pageMessages />      
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+
+        <apex:includeScript value="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.0.min.js"/>
+
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="Externally_Hosted_Content" description="Visualforce Page"/></li>            
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>          
+</apex:form>              
+</apex:page>

@@ -1,0 +1,19 @@
+<apex:page sidebar="false">
+<apex:sectionHeader title="XSS in HTML Context"/>
+    <apex:pageBlock >
+        <apex:pageMessages />      
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+            <apex:outputtext >
+                {!$CurrentPage.parameters.userInput}
+            </apex:outputtext> 
+            <div onclick="console.log('{!$CurrentPage.parameters.userInput}')">Click me!</div>            
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="XSS_in_HTML_Context" description="Visualforce Page"/></li>            
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>                      
+</apex:page>

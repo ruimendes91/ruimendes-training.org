@@ -1,0 +1,19 @@
+<aura:component access="global">
+  <aura:attribute name="cofferSize" access="global" type="Decimal" required="true" default="100000"/>
+  <!-- Global may be too permissive here, private would be better since only the CEO decides commissions -->
+  <aura:attribute name="loanLimit" access="global" type="Boolean" default="false" />
+  
+  <div class="slds-row slds-align--absolute-center">
+  	<div class="slds-panel slds-size--4-of-6">
+        <article class="slds-card">
+        	<div class="slds-card__header">
+                Castle coffers
+            </div>
+            <div class="slds-card__body">
+                <ui:outputNumber value="{!v.cofferSize}"/> Ducats<br />
+                <ui:button press="{!c.withdrawMoney}" label="Fund"/>
+            </div>
+        </article>
+    </div>
+  </div>
+</aura:component>

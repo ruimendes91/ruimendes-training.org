@@ -1,0 +1,25 @@
+<aura:component implements="force:appHostable" access="global">
+    <aura:attribute name="spendEverything" default="false" type="Boolean" />
+    <div class="slds-row slds-align--absolute-center">
+        <div class="slds-size--3-of-6">
+        	<div class="slds-row slds-align--absolute-center">
+        		<div class="slds-panel slds-size--4-of-6 ">
+                    <h2 class="slds-text-heading--medium">Welcome to the castle bank, would you like to fund the peasants</h2>
+       		 		<p>Be careful though, we don't want to expend too much money.  The bank will close if it will have less than 15,000</p>
+                    <ui:inputCheckbox label="Spend unlimited" value="{!v.spendEverything}" />
+                </div>
+                <div class="slds-pabel slds-size--2-of-6">
+                    <c:LTNG_Access_Control_Demo loanLimit="{!v.spendEverything}"/>
+                </div>
+    		</div>
+            
+        </div>
+    </div>
+        
+    <hr />
+    <div class="slds-row slds-align--absolute-center">
+        <div class="slds-size--4-of-6">
+    		<c:CodeInstructions componentName="DemoAccessControl" />
+        </div>
+    </div>
+</aura:component>

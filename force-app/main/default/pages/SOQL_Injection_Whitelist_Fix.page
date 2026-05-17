@@ -1,0 +1,35 @@
+<apex:page controller="SOQL_Injection_Whitelist_Fix" sidebar="false" tabStyle="SOQL_Injection_Whitelist_Fix__tab">
+<apex:sectionHeader title="SOQL Injection Whitelist Fix" />
+<apex:form >
+    <apex:pageBlock >
+        <c:Classic_Error />
+        <apex:pageMessages />      
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+            <apex:outputPanel >
+                Please choose the object to query:
+                <apex:selectList value="{!objectName}" size="1">
+                    <apex:selectOption itemValue="" itemLabel=""/>
+                    <apex:selectOption itemValue="Personnel" itemLabel="Personnel"/>
+                    <apex:selectOption itemValue="Property" itemLabel="Property"/>
+                    <apex:selectOption itemValue="Supply" itemLabel="Supply"/>
+            </apex:selectList> 
+        </apex:outputPanel>
+        <apex:commandButton value="Perform Search" action="{!add_urlParam}"/>
+        <apex:pageBlockTable value="{!sObjectList}" var="r">
+          <apex:repeat value="{!fieldList}" var="f">
+            <apex:column value="{!r[f]}"/>
+          </apex:repeat>
+        </apex:pageBlockTable>
+       
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="SOQL_Injection_Whitelist_Fix" description="Visualforce Page"/></li>            
+                    <li><c:codeLink type="Apex" namespace="security_thail" name="SOQL_Injection_Whitelist_Fix" description="Apex Controller"/></li>
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>          
+</apex:form>              
+</apex:page>

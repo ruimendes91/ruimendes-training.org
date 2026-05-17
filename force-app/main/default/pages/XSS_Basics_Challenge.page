@@ -1,0 +1,29 @@
+<apex:page controller="XSS_Basics_Challenge" sidebar="false" tabStyle="XSS_Basics_Challenge__tab">
+<apex:sectionHeader title="XSS Basics Challenge" />
+<apex:form >
+    <apex:pageBlock >
+        <c:Classic_Error />
+        <apex:pageMessages />      
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+            <apex:outputPanel >
+                Successfully perform an XSS attack to complete the challenge: <apex:inputText id="primeInput" value="{!basicText}"/><br/>
+                 <apex:commandButton action="{!makeXSS}" value="Attempt XSS!" />
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:outputtext id="textOutput"/> 
+            </apex:outputPanel>
+            <script>
+                    document.getElementById('{!$Component.textOutput}').innerHTML = '<b><font size="6" face="Comic Sans MS" color="blue"><i>{!basicText}<i></font></p>';
+            </script>            
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="XSS_Basics_Challenge" description="Visualforce Page"/></li>            
+                    <li><c:codeLink type="Apex" namespace="security_thail" name="XSS_Basics_Challenge" description="Apex Controller"/></li>
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>          
+</apex:form>              
+</apex:page>

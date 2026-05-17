@@ -1,0 +1,18 @@
+<apex:component controller="LoginAsController" allowDML="true">
+
+<apex:attribute name="string_url" description="target & return url" type="String" required="true" assignTo="{!url}"/>
+<apex:attribute name="array_permset" description="map of perm sets" type="string[]" required="true" assignTo="{!permSets}"/>
+
+<apex:form > 
+    <apex:outputPanel rendered="{!NOT(logout)}">
+        Please choose which user you wish to emulate:
+        <apex:selectList value="{!targetPerm}" size="1" multiselect="false">
+            <apex:selectOptions value="{!items}"/>
+            <apex:actionSupport event="onchange" action="{!emulateUser}"/>
+        </apex:selectList>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!logout}">
+        <apex:commandButton action="{!returnToAdmin}" value="Return to User Selection" /> 
+    </apex:outputPanel>
+</apex:form>
+</apex:component>

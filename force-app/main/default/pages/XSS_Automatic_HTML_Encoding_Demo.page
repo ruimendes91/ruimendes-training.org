@@ -1,0 +1,18 @@
+<apex:page sidebar="false" controller="XSS_Automatic_HTML_Encoding_Demo" action="{!seedURL}">
+<apex:sectionHeader title="Automatic HTML Encoding"/>
+    <apex:pageBlock >
+        <apex:pageMessages />      
+        <apex:pageBlockSection title="Demo" columns="1" id="tableBlock">
+            <apex:outputlabel value="Hello {!name}!"/>
+            <p>Welcome to the Kingdom Management Org!</p>             
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Code links" columns="1">
+            <apex:outputPanel >
+                <ul>
+                    <li><c:codeLink type="Visualforce" namespace="security_thail" name="XSS_Basics_Challenge" description="Visualforce Page"/></li>            
+                    <li><c:codeLink type="Apex" namespace="security_thail" name="XSS_Basics_Challenge" description="Apex Controller"/></li>
+                </ul>
+            </apex:outputPanel>        
+        </apex:pageBlockSection>        
+    </apex:pageBlock>                      
+</apex:page>
